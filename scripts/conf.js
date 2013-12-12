@@ -1,5 +1,5 @@
 window.OGRE.conf = (function(){
-	var backhand = 'http://ogre.local/ogre/';
+	var backhand = 'http://ogre.be.local/';
 	return {
 		version : '0.1',
 		UI : {
