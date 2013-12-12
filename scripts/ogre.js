@@ -31,6 +31,8 @@
 			return deferred.promise()
 		}());
 
+		self.UI = new window.OGRE.UI();
+
 		return {
 			ready : function(fnc){
 				var self = this;
@@ -41,7 +43,8 @@
 			},
 			getArticles : function(){
 				return self.articles;
-			}
+			},
+			UI : self.UI
 		}
 	};
 	window.OGRE.FILE = document.querySelector("[src$='ogre.js']").src
@@ -51,4 +54,5 @@
 	};
 	window.OGRE.getScript('conf.js');
 	window.OGRE.getScript('tools.js');
-}())
+	window.OGRE.getScript('UI.js');
+}());

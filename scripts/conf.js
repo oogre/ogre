@@ -1,10 +1,24 @@
 window.OGRE.conf = (function(){
+	var backhand = 'http://ogre.local/ogre/';
 	return {
 		version : '0.1',
+		UI : {
+			root : {
+				selector : '#container'
+			},
+			list : {
+				selector : 'ul'
+			},
+			item : {
+				backbone : '<li><article><header><h1 class="row"><span></span></h1></header></article></li>'
+			}
+		},
 		requests : {
+			
 			getArticles : function(){
+				
 				return {
-					url : 'http://ogre.local/ogre/articles/',
+					url : backhand+'/articles/',
 					dataType : 'HTML',
 					selector : '[href^="_"]',
 					make : function(raw){
@@ -20,7 +34,7 @@ window.OGRE.conf = (function(){
 				}
 			},
 			getTexts : function(name){
-				var _url = 'http://ogre.local/ogre/articles/'+name+'texts';
+				var _url = backhand+'articles/'+name+'texts';
 				return{
 					url : _url,
 					dataType : 'HTML',
@@ -31,7 +45,7 @@ window.OGRE.conf = (function(){
 				}	
 			},
 			getLinks : function(name){
-				var _url = 'http://ogre.local/ogre/articles/'+name+'links';
+				var _url = backhand+'articles/'+name+'links';
 				return{
 					url : _url,
 					dataType : 'HTML',
@@ -42,7 +56,7 @@ window.OGRE.conf = (function(){
 				}	
 			},
 			getImages : function(name){
-				var _url = 'http://ogre.local/ogre/articles/'+name+'images';
+				var _url = backhand+'articles/'+name+'images';
 				return{
 					url : _url,
 					dataType : 'HTML',
@@ -53,7 +67,7 @@ window.OGRE.conf = (function(){
 				}	
 			},
 			getMovies : function(name){
-				var _url = 'http://ogre.local/ogre/articles/'+name+'movies';
+				var _url = backhand+'articles/'+name+'movies';
 				return{
 					url : _url,
 					dataType : 'HTML',

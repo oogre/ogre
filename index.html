@@ -13,23 +13,10 @@
 			jQuery().ready(function(){
 
 				window.ogre = OGRE().ready(function(o){
-					o.nav =  {
-						root : document.querySelector('nav'),
-						list : document.querySelector('nav ul'),
-						elem : document.querySelector('nav ul').firstChild.nodeValue,
-						elems : [],
-						push : function(content){
-							this.elems.push($(this.elem)[0]);
-							this.elems.last().innerHTML = content;
-							this.list.appendChild(this.elems.last());
-						}
-					};
+
 
 					o.getArticles().map(function(article){
-						//o.nav.push(article.name);
-						/*o.nav.elems.last().onclick = function(event){
-							console.log(this)
-						}*/
+					
 					});
 				});
 			});
@@ -60,9 +47,13 @@
 			h1 span{
 				left: -8px;
 			}
+			article{
+				margin-top: 25%;
+			}
 		</style>
 	</head>  
 	<body id='OGRE'>
+
 		<div id='background' class="row">	
 		  <div class="col-xs-offset-3 line col-xs-2"></div>
 		  <div class="line col-xs-2"></div>
@@ -71,21 +62,31 @@
 		</div>
 
 		<div id='container'>
-			<article>
-				<header>
-					<h1 class="row">
-						<span class="col-xs-offset-3 col-xs-2">O</span>
-						<span class="col-xs-2">G</span>
-						<span class="col-xs-2">R</span>
-						<span class="col-xs-2">E</span>
-					</h1>
-				</header>
-			</article>
+			<ul class="list-unstyled"><!--<li><article><header><h1 class="row"><span></span></h1></header></article></li>-->
+				<li>
+					<article>
+						<h1 class="row">
+							<span class="col-xs-offset-3 col-xs-2">O</span>
+							<span class="col-xs-2">G</span>
+							<span class="col-xs-2">R</span>
+							<span class="col-xs-2">E</span>
+						</h1>
+					</article>
+				</li>
+				<li>
+					<article>
+						<h1 class="row">
+							<span class="col-xs-offset-3 col-xs-1">T</span>
+							<span class="col-xs-2">I</span>
+							<span class="col-xs-2">T</span>
+							<span class="col-xs-1">R</span>
+							<span class="col-xs-2">E</span>
+						</h1>
+					</article>
+				</li>
+			</ul>
 		</div>
 
-		<nav>
-			<ul><!--<li></li>--></ul>
-		</nav>
 		<footer></footer>
 	</body>
 </html>
