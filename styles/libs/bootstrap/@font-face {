@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'CosmicSansNeueMono';
+        src: url('fonts/cosmic-sans-neue-mono/OTF/CosmicSansNeueMonoBold.otf') format('opentype'), url('fonts/cosmic-sans-neue-mono/CosmicSansNeueMonoBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'CosmicSansNeueMono';
+        src: url('fonts/cosmic-sans-neue-mono/OTF/CosmicSansNeueMonoRegular.otf') format('opentype'), url('fonts/cosmic-sans-neue-mono/CosmicSansNeueMonoRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

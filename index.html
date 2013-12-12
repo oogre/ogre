@@ -1,0 +1,91 @@
+<html>  
+	<head>  
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="styles/libs/bootstrap/bootstrap.css">
+		<link rel="stylesheet" href="styles/ogre.css">
+				<link rel="stylesheet" href="styles/fonts.css">
+		
+		<script type="text/javascript" src="scripts/libs/jquery/core.js"></script>  
+		<script type="text/javascript" src="scripts/libs/jquery/color.js"></script> 
+		<script type="text/javascript" src="scripts/ogre.js"></script>
+		<script type="text/javascript">
+			jQuery().ready(function(){
+
+				window.ogre = OGRE().ready(function(o){
+					o.nav =  {
+						root : document.querySelector('nav'),
+						list : document.querySelector('nav ul'),
+						elem : document.querySelector('nav ul').firstChild.nodeValue,
+						elems : [],
+						push : function(content){
+							this.elems.push($(this.elem)[0]);
+							this.elems.last().innerHTML = content;
+							this.list.appendChild(this.elems.last());
+						}
+					};
+
+					o.getArticles().map(function(article){
+						//o.nav.push(article.name);
+						/*o.nav.elems.last().onclick = function(event){
+							console.log(this)
+						}*/
+					});
+				});
+			});
+		</script>
+		<style type="text/css">
+
+			body, #OGRE .row{
+				font-family: 'CosmicSansNeueMono';
+				padding: 0;
+				margin: 0;
+			}
+			#background{
+				top:0;
+				left:0;
+				position: fixed;
+				height:100%;
+				width:100%;
+				padding: 0;
+				margin: 0;
+			}
+			#background .line{
+				border-left: solid 1px #888;
+				height:100%;
+			}
+			#OGRE [class^="col-xs-"]{
+				padding: 0;
+			}
+			h1 span{
+				left: -8px;
+			}
+		</style>
+	</head>  
+	<body id='OGRE'>
+		<div id='background' class="row">	
+		  <div class="col-xs-offset-3 line col-xs-2"></div>
+		  <div class="line col-xs-2"></div>
+		  <div class="line col-xs-2"></div>
+		  <div class="line col-xs-2"></div>
+		</div>
+
+		<div id='container'>
+			<article>
+				<header>
+					<h1 class="row">
+						<span class="col-xs-offset-3 col-xs-2">O</span>
+						<span class="col-xs-2">G</span>
+						<span class="col-xs-2">R</span>
+						<span class="col-xs-2">E</span>
+					</h1>
+				</header>
+			</article>
+		</div>
+
+		<nav>
+			<ul><!--<li></li>--></ul>
+		</nav>
+		<footer></footer>
+	</body>
+</html>
