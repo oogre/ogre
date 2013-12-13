@@ -20,6 +20,7 @@
 	}
 
 	window.OGRE = function(){
+
 		var self = window.OGRE;
 		
 		var init = (function(){
@@ -27,11 +28,13 @@
 			self.tools.getArticles(function(articles){
 				self.articles = articles;
 				deferred.resolve();
-			})
+			});
 			return deferred.promise()
 		}());
 
-		self.UI = new window.OGRE.UI();
+		new window.OGRE.UI().ready(function(UI){
+			window.addEventListener('resize', UI.updateWindowSize, false);
+		});
 
 		return {
 			ready : function(fnc){
@@ -43,8 +46,7 @@
 			},
 			getArticles : function(){
 				return self.articles;
-			},
-			UI : self.UI
+			}
 		}
 	};
 	window.OGRE.FILE = document.querySelector("[src$='ogre.js']").src
