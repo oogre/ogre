@@ -9,22 +9,28 @@ window.OGRE.tools = {
 				result.push(self.make(raw));
 			});
 			callback && callback(result);
+		})
+		.fail(function(){
+			callback && callback();
 		});
 		return result;
 	},
-	getArticles : function(callback){
+	getArticles : function(articleName, callback){
 		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getArticles, null, callback);
 	},
-	getImages : function(articleName){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getImages, articleName);
+	getImages : function(articleName, callback){
+		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getImages, articleName, callback);
 	},
-	getMovies : function(articleName){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getMovies, articleName);
+	getTitle : function(articleName, callback){
+		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getTitle, articleName, callback);
 	},
-	getLinks : function(articleName){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getLinks, articleName);
+	getMovies : function(articleName, callback){
+		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getMovies, articleName, callback);
 	},
-	getTexts : function(articleName){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getTexts, articleName);
+	getLinks : function(articleName, callback){
+		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getLinks, articleName, callback);
+	},
+	getTexts : function(articleName, callback){
+		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getTexts, articleName, callback);
 	}
 }
