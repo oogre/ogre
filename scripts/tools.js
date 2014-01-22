@@ -44,20 +44,19 @@
 				var contents = {};
 				_xhr(OGRE.CONF.backhand.getContents.request).done(function(respons){
 					if(respons.status && "ok" === respons.status){
-						console.log(respons.data);
+						var articles = respons.data;
+						for(var titre in articles){
+							var article = articles[titre];
+							for(var cat in article){
+								contents[titre] = contents[titre] || { name : titre};
+								contents[titre][cat] = contents[titre][cat] || [];
+								article[cat].map(function(element){
+									contents[titre][cat].push(respons.directory+titre+'/'+cat+'/'+element);
+								});
+							}
+						}
 					}
-/*
-					Array.prototype.slice.call(arguments).map(function(view){
-						var _view = view.replace(OGRE.CONF.backhand.getContents.request.url, "").split("/")
-						var titre = _view.shift();
-						var cat = _view.shift();
-						var name = _view.shift();
-						contents[titre] = contents[titre] || { name : titre};
-						contents[titre][cat] = contents[titre][cat] || [];
-						contents[titre][cat].push(view);
-					});
-					console.log(contents);
-					callback(contents);*/
+					callback(contents);
 				});
 			}
 		};
