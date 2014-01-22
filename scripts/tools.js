@@ -5,7 +5,7 @@
 
 	OGRE.TOOLS = (function(){
 		var _xhr = function(request){
-			request.data = $.extend(request.data, {date : new Date().getTime()});
+			//request.data = $.extend(request.data, {date : new Date().getTime()});
 			return $.ajax(request);
 		};
 
