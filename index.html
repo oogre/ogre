@@ -11,7 +11,48 @@
 		<script type="text/javascript" src="scripts/libs/jquery/core.js"></script>  
 		<script type="text/javascript" src="scripts/libs/jquery/color.js"></script> 
 		<script type="text/javascript" src="scripts/ogre.js"></script>
+ 		<script type="text/javascript" >
+            jQuery().ready(function(){
+                console.log("jQuery is ready");
+                OGRE().ready(function(G){
+                    console.log("OGRE is ready");
 
+					var article = $(window.location.hash);
+					0 < article.length && window.scrollTo(window.scrollY, article.position().top);
+
+					var linkAnim = function (elem) {
+						var overAction = function(event){
+							$(event.target).animate({
+								"color" : OGRE.CONF.colors[Math.floor(Math.random() * OGRE.CONF.colors.length)]
+							},200);
+						};
+						var outAction = function(event){
+							$(event.target).animate({
+								"color": "#0000ff"
+							},200);
+						};
+						elem.addEventListener("mouseover", overAction, false);
+						elem.addEventListener("mouseout", outAction, false);
+						elem.setAttribute("target", "_blank");
+					};
+					setTimeout(function(){
+						document.querySelectorAll("a").map(linkAnim);	
+					}, 5000)
+					
+
+					var calltoaction = document.querySelector(".calltoaction");
+					window.addEventListener("scroll", function (){
+						calltoaction.style.opacity = Math.max(window.scrollY.map(0, 100, 1.0, 0.0), 0.0);
+						if("0" === calltoaction.style.opacity){
+							calltoaction.classList.add("hide");
+						}
+						else{
+							calltoaction.classList.remove("hide");
+						}
+					}, false );
+                });
+            });
+    	</script>
 	</head>  
 	<body id='OGRE'>
 		<div id='background' class="row">	
@@ -36,7 +77,22 @@
 		</div>
 
 		<footer>
-			<span>
+			<span class='switch hide'>
+				<i class="fa fa-arrow-circle-o-left"></i>
+					CLICK TO SWTCH
+				<i class="fa fa-arrow-circle-o-right"></i>
+			</span>
+			<span class='setfullscreen hide'>
+				<i class="fa fa-desktop FULLSCREEN"></i>
+					CLICK TO FULLSCREEN
+				<i class="fa fa-desktop"></i>
+			</span>
+			<span class='setfullscreen hide'>
+				<i class="fa fa-desktop FULLSCREEN"></i>
+					SCROLL
+				<i class="fa fa-desktop"></i>
+			</span>
+			<span class='calltoaction'>
 				<i class="fa fa-angle-double-down"></i>
 					SCROLL DOWN BABY
 				<i class="fa fa-angle-double-down"></i>
@@ -44,3 +100,4 @@
 		</footer>
 	</body>
 </html>
+

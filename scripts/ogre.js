@@ -1,52 +1,95 @@
-(function() {
+var OGRE;
+(function(){
+	"use strict";
+	/*global $:false */
+	/*global window:false */
+	/*global NodeList:false */
+
+
 	String.prototype.querySelector = function(selector){
-		var htmlObject = document.createElement('div');
+		var htmlObject = document.createElement("div");
 		htmlObject.innerHTML = this;
 		return htmlObject.querySelector("div " + selector);
 	};
+
 	String.prototype.querySelectorAll = function(selector){
-		var htmlObject = document.createElement('div');
+		var htmlObject = document.createElement("div");
 		htmlObject.innerHTML = this;
 		return htmlObject.querySelectorAll("div " + selector);
 	};
+
+	Array.prototype.querySelectorAll = function(selector){
+		return this.map(function(elem){
+			return elem.querySelectorAll(selector);
+		});
+	};
+
+	NodeList.prototype.querySelectorAll = function(selector){
+		return this.map(function(elem){
+			return elem.querySelectorAll(selector);
+		});
+	};
+
 	NodeList.prototype.map = function(fnc){
 		return Array.prototype.slice.call(this).map(fnc);
 	};
+
 	Array.prototype.last = function(){
 		return this[this.length-1];
 	};
+
 	Array.prototype.first = function(){
 		return this[0];
 	};
+	NodeList.prototype.first = function(){
+		return Array.prototype.slice.call(this).first();
+	};
+	NodeList.prototype.last = function(){
+		return Array.prototype.slice.call(this).last();
+	};
+
 	Number.prototype.map = function(istart, istop, ostart, ostop) {
-      	return ostart + (ostop - ostart) * ((this - istart) / (istop - istart));
-    };
+		return ostart + (ostop - ostart) * ((this - istart) / (istop - istart));
+	};
 
-	window.OGRE = function(){
-		var self = window.OGRE;
-
+	OGRE = function(){
+		var FILE = document.querySelector("[src*='ogre']").src;
+		var PATH = FILE.substr(0, FILE.length - FILE.split("/").pop().length);
+		var getScript = function (name) {
+			return $.getScript(("/" === name.substr(0, 1) ? "" : PATH) + "" + name);
+		};
+		var dependanciesLoader = function(){
+			var dependancies = [];
+			for(var k = arguments.length-1 ; k >= 0 ; k--){
+				dependancies.push(getScript(arguments[k]));
+			}
+			return $.when.apply($, dependancies);
+		};
 		var init = (function(){
-			var deferred = $.Deferred(); 
-			self.tools.getArticles(null, function(articles){
-				$.when.apply(null, articles.map(function(article){
-					return article.deferred;
-				}))
-				.always(function(){
-					self.articles = articles;
-					new window.OGRE.UI().ready(function(UI){
-						window.addEventListener('resize', UI.updateWindowSize, false);
-						$.when.apply(null, articles.map(function(article){
-							return UI.addArticle(article);
-						}))
-						.always(function(){
-							UI.updateWindowSize();
-							deferred.resolve();	
-						});
+			var deferred = $.Deferred();
+			dependanciesLoader("asynchronny.js", "conf.js", "tools.js", "UI.js")
+				.fail(function(){
+					console.log(arguments);
+					window.alert("dependanciesLoader");
+				})
+				.done(function(){
+					OGRE.TOOLS.getContents(function(articles){
+						new OGRE.UI().ready(function(UI){
+							console.log("UI READY");
+							window.addEventListener("resize", UI.updateWindowSize, false);
 
+							var articleswaiter = [];
+							for(var k in articles){
+								articleswaiter.push(UI.addArticle(articles[k]));
+							}
+							$.when.apply(null, articleswaiter).done(function(){
+								UI.updateWindowSize();
+								deferred.resolve();	
+							});
+						});
 					});
 				});
-			});
-			return deferred.promise()
+			return deferred.promise();
 		}());
 
 		return {
@@ -57,40 +100,10 @@
 				});
 				return this;
 			}
-		}
+		};
 	};
-	window.OGRE.FILE = document.querySelector("[src$='ogre.js']").src
-	window.OGRE.PATH = window.OGRE.FILE.substr(0, window.OGRE.FILE.length - window.OGRE.FILE.split('/').pop().length);
-	window.OGRE.getScript = function(name) {
-		document.write('<script src="' + ('/' === name.substr(0, 1) ? '' : window.OGRE.PATH) + '' + name + '" type="text/javascript"></script>');	
-	};
-	window.OGRE.getScript('conf.js');
-	window.OGRE.getScript('tools.js');
-	window.OGRE.getScript('UI.js');	
 }());
 
-jQuery().ready(function(){
-	OGRE().ready(function(o){
-		var article = $(window.location.hash);
-		0 < article.length && window.scrollTo(window.scrollY, article.position().top);
 
-		document.querySelectorAll('a').map(function(elem){
-			elem.addEventListener('mouseover', function(event){
-				$(event.target).animate({
-					'color' : OGRE.conf.colors[Math.floor(Math.random() * OGRE.conf.colors.length)]
-				},200);
-			}, false);
-			elem.addEventListener('mouseout', function(event){ 
-				$(event.target).animate({
-					'color': "#0000ff"
-				},200);
-			}, false);
-			elem.setAttribute('target', '_blank');
-		});
-		var footer = document.querySelector('footer');
-		window.addEventListener('scroll', function(){
-			footer.style.opacity = Math.max(window.scrollY.map(0, 100, 1.0, 0.0), 0.0);
-		}, false);
-	});
-});
+
 

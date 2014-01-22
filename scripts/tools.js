@@ -1,36 +1,60 @@
-window.OGRE.tools = {
-	getContents : function(request, name, callback){
-		var result = [];
-		$.ajax(request(name))
-		.done(function(html){
-			var self = this;
-			html.querySelectorAll(self.selector)
-			.map(function(raw){
-				result.push(self.make(raw));
+(function(){
+	"use strict";
+	/*global $:false */
+	/*global OGRE:false */
+
+	OGRE.TOOLS = (function(){
+		var _xhr = function(request){
+			request.data = $.extend(request.data, {date : new Date().getTime()});
+			return $.ajax(request);
+		};
+
+		var directoryParser = function(directory, parser){
+			return directory.querySelectorAll(parser.selector).map(function(item){
+				return parser.get(item);
 			});
-			callback && callback(result);
-		})
-		.fail(function(){
-			callback && callback();
-		});
-		return result;
-	},
-	getArticles : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getArticles, null, callback);
-	},
-	getImages : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getImages, articleName, callback);
-	},
-	getTitle : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getTitle, articleName, callback);
-	},
-	getMovies : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getMovies, articleName, callback);
-	},
-	getLinks : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getLinks, articleName, callback);
-	},
-	getTexts : function(articleName, callback){
-		return window.OGRE.tools.getContents(window.OGRE.conf.requests.getTexts, articleName, callback);
-	}
-}
+		};
+
+		var fileFinder = function(conf, asynchrony){
+			_xhr(conf.request)
+			.done(function (data){
+				directoryParser(data, OGRE.CONF.cleaner.autoindex).map(function(item){
+					if(true === item.dir){
+						var itemRequest = $.extend(true, {}, conf);
+						itemRequest.request.url += item.name;
+						fileFinder(itemRequest, asynchrony.witness());
+					}else{
+						asynchrony.witness().testify(conf.request.url+item.name);
+					}
+				});
+			})
+			.always(function(){
+				asynchrony.testify();
+			});
+		};
+
+		var xhrautoindex = function(conf){
+			var asynchrony = OGRE.Asynchrony();
+			fileFinder(conf, asynchrony.witness());
+			return asynchrony;
+		};
+
+		return {
+			getContents : function(callback){
+				var contents = {};
+				xhrautoindex(OGRE.CONF.backhand.getContents).done(function(){
+					Array.prototype.slice.call(arguments).map(function(view){
+						var _view = view.replace(OGRE.CONF.backhand.getContents.request.url, "").split("/")
+						var titre = _view.shift();
+						var cat = _view.shift();
+						var name = _view.shift();
+						contents[titre] = contents[titre] || { name : titre};
+						contents[titre][cat] = contents[titre][cat] || [];
+						contents[titre][cat].push(view);
+					});
+					callback(contents);
+				});
+			}
+		};
+	}());
+}());
