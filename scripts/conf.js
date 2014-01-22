@@ -44,8 +44,7 @@
 			filename : "contents",
 			getContents : {
 				request :{
-					url : "{backhand_url}/articles/",
-					dataType : "html",
+					url : "http://www.ogre.be/articles/"
 				}
 			}
 		},

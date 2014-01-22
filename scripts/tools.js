@@ -42,7 +42,11 @@
 		return {
 			getContents : function(callback){
 				var contents = {};
-				xhrautoindex(OGRE.CONF.backhand.getContents).done(function(){
+				_xhr(OGRE.CONF.backhand.getContents.request).done(function(respons){
+					if(respons.status && "ok" === respons.status){
+						console.log(respons.data);
+					}
+/*
 					Array.prototype.slice.call(arguments).map(function(view){
 						var _view = view.replace(OGRE.CONF.backhand.getContents.request.url, "").split("/")
 						var titre = _view.shift();
@@ -52,7 +56,8 @@
 						contents[titre][cat] = contents[titre][cat] || [];
 						contents[titre][cat].push(view);
 					});
-					callback(contents);
+					console.log(contents);
+					callback(contents);*/
 				});
 			}
 		};
