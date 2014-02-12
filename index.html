@@ -40,15 +40,17 @@
 					}, 5000)
 					
 
-					var calltoaction = document.querySelector(".calltoaction");
+					var calltoactions = document.querySelectorAll(".calltoaction");
 					window.addEventListener("scroll", function (){
-						calltoaction.style.opacity = Math.max(window.scrollY.map(0, 100, 1.0, 0.0), 0.0);
-						if("0" === calltoaction.style.opacity){
-							calltoaction.classList.add("hide");
-						}
-						else{
-							calltoaction.classList.remove("hide");
-						}
+						calltoactions.map(function(calltoaction){
+							calltoaction.style.opacity = Math.max(window.scrollY.map(0, 100, 1.0, 0.0), 0.0);
+							if("0" === calltoaction.style.opacity){
+								calltoaction.classList.add("hide");
+							}
+							else{
+								calltoaction.classList.remove("hide");
+							}
+						});
 					}, false );
                 });
             });
@@ -61,6 +63,20 @@
 			<div class="line col-xs-2"></div>
 			<div class="line col-xs-2"></div>
 		</div>
+
+		<header id='contact' class="calltoaction">
+			<ul class="list-unstyled">
+				<li >
+					vincent(a)ogre.be
+				</li>
+				<li >
+					github : o_ogre
+				</li>
+				<li >
+					+32.595.876.315
+				</li>
+			</ul>
+		</header>
 		<div id='container'>
 			<ul class="list-unstyled">
 				<li>

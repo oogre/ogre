@@ -87,6 +87,13 @@ h1 span{
 	text-align: center;
 	z-index: 1001;
 }
+#OGRE header{
+	position: fixed;
+	top: 5%;
+	width: 100%;
+	text-align: center;
+	z-index: 1001;
+}
 
 #OGRE footer span, #OGRE footer span i{
 	/*background-color: #666666;

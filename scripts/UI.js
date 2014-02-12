@@ -32,7 +32,7 @@
 			}, false);
 			gallery.parentNode.addEventListener("mouseup", function() {
 				gallery.ismousedown = false;
-				_ajustScroll(gallery);
+				//_ajustScroll(gallery);
 			}, false);
 
 
