@@ -40,7 +40,7 @@
 			}
 		},
 		backhand :{
-			url : window.location.protocol+"//"+window.location.host,
+			url : window.location.protocol+"//"+window.location.host.replace(".local", ""),
 			filename : "contents",
 			getContents : {
 				request :{
@@ -63,7 +63,7 @@
 
 		
 		init : function(){
-			this.backhand.getContents.request.url = this.backhand.getContents.request.url.replace("{backhand_url}", this.backhand.url);
+			this.backhand.getContents.request.url = this.backhand.url + this.backhand.getContents.request.url.replace("{backhand_url}", this.backhand.url);
 			delete this.init;
 			return this;
 		}
